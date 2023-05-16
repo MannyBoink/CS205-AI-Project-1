@@ -241,7 +241,7 @@ if __name__ == "__main__":
             print("The first 3 characters represent the first row, the next 3 the second row and the final 3 characters represent" 
                   " the final row")
             initialString = input()
-            while len(initialString != 9):
+            while len(initialString) != 91:
                 print("Your input was wrong, try again")
                 initialString = input()
             flag = False

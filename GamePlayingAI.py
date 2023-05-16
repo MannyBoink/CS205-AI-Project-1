@@ -168,7 +168,103 @@ goal15 = [[1, 2, 3, 4],
           [9, 10, 11, 12],
           [13, 14, 15, 0]]
 
+if __name__ == "__main__":
+    print("Welcome to the 8-Puzzle. The sample initial States are:")
+    print()
+    print("Trivial")
+    printBoard(veryEasy)
+    print()
+    print("Easy")
+    printBoard(easy)
+    print()
+    print("Manageable")
+    printBoard(doable)
+    print()
+    print("Slides Example")
+    printBoard(sample)
+    print()
+    print("Here We Go")
+    printBoard(oh_boy)
+    print()
+    print("The Goal State is:")
+    printBoard(goal8)
+    print()
+    while True:
+        print("You can keep playing this. If you want to exit, press 8, to play, press 1.")
+        playQuestionMark = int(input())
+        if playQuestionMark == 8:
+            print("Thank You for Playing. Have a Good Day ahead!")
+            break
+        elif playQuestionMark != 1:
+            continue
+        print("Enter the Initial State or Use one of the samples available. Press 1 if you would like to enter your own initial state" 
+              ", else Press 2")
+        initialQuestionMark = int(input())
+        newInitialState = None
+        if initialQuestionMark == 1:
+            print("Please enter the initial state as a 9 character string with no spaces and only numbers from 0-8 in each character.")
+            print("The first 3 characters represent the first row, the next 3 the second row and the final 3 characters represent" 
+                  " the final row")
+            initialString = input()
+            while len(initialString != 9):
+                print("Your input was wrong, try again")
+                initialString = input()
+            flag = False
+            for char in initialString:
+                if int(char) > 8 or int(char) < 0:
+                    print("Incorrect String, exiting")
+                    flag = True
+            
+            if flag:
+                break
 
-generalSearch(board_size = 3, initialState = sample, heuristic = None)
-generalSearch(board_size = 3, initialState = sample, heuristic = "Misplaced Tile")
-generalSearch(board_size = 3, initialState = sample, heuristic = "Manhattan Distance")
+            newInitialState = [[-1 for _ in range(3)] for _ in range(3)]
+            i = 0
+            j = 0
+            for char in initialString:
+                newInitialState[i][j] = int(char)
+                if j == 2:
+                    i += 1
+                    j = 0
+                else:
+                    j += 1
+        elif initialQuestionMark == 2:
+            print("Enter the title of the sample state you would like to use")
+            initialSample = input()
+            if initialSample == "Trivial":
+                newInitialState = trivial
+            elif initialSample == "Very Easy":
+                newInitialState = veryEasy
+            elif initialSample == "Easy":
+                newInitialState = easy
+            elif initialSample == "Manageable":
+                newInitialState = doable
+            elif initialSample == "Slides Example":
+                newInitialState = sample
+            elif initialSample == "Here We Go":
+                newInitialState = oh_boy
+            else:
+                print("Sorry, could not initialize a sample state, check your casing and spelling and try again!")
+                break
+
+        if not newInitialState:
+            print("Sorry, unable to initialize state, try again next time!")
+            break
+        
+        print("If you would like to print the states being explored (basically setting the verbosity here), press 1")
+        verbosity = int(input())
+        if verbosity == 1:
+            verbosity = True
+        else:
+            verbosity = False
+        print("Algorithm Choice: 1: Uniform Cost Search, 2: A* with Misplaced Tile Heuristic, 3: A* with Manhattan Distance Heuristic")
+        algorithm = int(input())
+        if algorithm == 1:
+            generalSearch(board_size = 3, initialState = newInitialState, heuristic = None, verbose = verbosity)
+        elif algorithm == 2:
+            generalSearch(board_size = 3, initialState = newInitialState, heuristic = "Misplaced Tile", verbose = verbosity)
+        elif algorithm == 3:
+            generalSearch(board_size = 3, initialState = newInitialState, heuristic = "Manhattan Distance", verbose = verbosity)
+        else:
+            break
+        print()

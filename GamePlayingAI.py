@@ -1,6 +1,7 @@
 import heapq as queue
 import copy
 import time
+import matplotlib.pyplot as plt
 
 def printBoard(state): 
     grid_0 = f" _______________"
@@ -95,7 +96,7 @@ def generalSearch(board_size = 3, initialState=[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
             print("Nodes Explored:", exploredCount)
             print("Max Queue Size:", maxQueue)
             print("Time Taken: %.3f" %(end - start), "seconds")
-            return
+            return exploredCount, maxQueue, (end - start)
         
         # Add to Visited and increase count of explored nodes. The algorithm later explores the node to its completeness.
 
@@ -129,7 +130,40 @@ def generalSearch(board_size = 3, initialState=[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
                 maxQueue = max(maxQueue, len(nodes)) # Compute the maximum Queue Length
 
     print("FAILURE!")
+    return 0, 0, 0
 
+def testTime():
+    depth = [0, 1, 2, 4, 7, 24, 31]
+    UCSearchTime = []
+    UCSearchNodesExplored = []
+    UCSearchMaxQueue = []
+    MTHeuristicTime = []
+    MTSearchNodesExplored = []
+    MTSearchMaxQueue = []
+    MDHeuristicTime = []
+    MDSearchNodesExplored = []
+    MDSearchMaxQueue = []
+    for state in [trivial, veryEasy, easy, doable, sample, depth24, oh_boy]:
+        
+        EC, MQ, T = generalSearch(board_size=3, initialState=state, heuristic=None)
+        UCSearchTime.append(T)
+        UCSearchNodesExplored.append(EC)
+        UCSearchMaxQueue.append(MQ)
+
+        EC, MQ, T = generalSearch(board_size=3, initialState=state, heuristic="Misplaced Tile")
+        MTHeuristicTime.append(T)
+        MTSearchNodesExplored.append(EC)
+        MTSearchMaxQueue.append(MQ)
+
+        EC, MQ, T = generalSearch(board_size=3, initialState=state, heuristic="Manhattan Distance")
+        MDHeuristicTime.append(T)
+        MDSearchNodesExplored.append(EC)
+        MDSearchMaxQueue.append(MQ)
+    
+    plt.plot(depth, UCSearchTime, label = 'Uniform Cost Search')
+    plt.plot(depth, MTHeuristicTime, label = 'A* with Misplaced Tile Heuristic')
+    plt.plot(depth, MDHeuristicTime, label = 'A* with Manhattan Distance Heuristic')
+    plt.show()
 
 trivial = [[1, 2, 3],
            [4, 5, 6],
@@ -169,6 +203,7 @@ goal15 = [[1, 2, 3, 4],
           [13, 14, 15, 0]]
 
 if __name__ == "__main__":
+    #testTime() # Optional Call to plot graphs.
     print("Welcome to the 8-Puzzle. The sample initial States are:")
     print()
     print("Trivial")

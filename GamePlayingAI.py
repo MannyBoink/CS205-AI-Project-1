@@ -4,7 +4,7 @@ import time
 import matplotlib.pyplot as plt
 
 def printBoard(state): 
-    grid_0 = f" _______________"
+    grid_0 = " _______________"
     grid_1 = f"|| {state[0][0]} | {state[0][1]} | {state[0][2]} ||\n"
     grid_2 = f"|| {state[1][0]} | {state[1][1]} | {state[1][2]} ||\n"
     grid_3 = f"|| {state[2][0]} | {state[2][1]} | {state[2][2]} || "

@@ -10,7 +10,8 @@ def printBoard(state):
     grid_3 = f"|| {state[2][0]} | {state[2][1]} | {state[2][2]} || "
     print(grid_0, "\n", grid_1, grid_2, grid_3)
 
-def generalSearch(board_size = 3, initialState=[[1, 2, 3], [4, 5, 6], [7, 8, 9]], heuristic = None, verbose = False):
+def generalSearch(board_size = 3, initialState=None, heuristic = None, verbose = False):
+    initialState = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] if initialState is None else initialState
     goal = None
     if board_size == 3:
         goal = goal8
